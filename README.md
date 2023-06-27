@@ -81,11 +81,12 @@ pytest --top_gender=2 --top_country=4 --top_pw_complex=3 --html=reports.html
 
 ## What I tested and how
 - I tested Census Toy API with **pytest** and **requests**.
-- There are three ActionTypes, CountByGender, CountByCountry, and CountPasswordComplexity.
-- 'top' values can be added via CLI to limit the number of results; 'top' values are optional and default values are 5.
-- I made combinations of 'top' value and the number of users using CLI and **parametrize** decorator.
+- There are three ActionTypes, **CountByGender**, **CountByCountry**, and **CountPasswordComplexity**.
+- **top** values can be added via CLI to limit the number of results; 'top' values are optional and default values are 5.
+- I made combinations of **top** value and the number of users using CLI and **parametrize** decorator.
 - I made a **test_utils.py** file to store common functions that are used in multiple test cases.
 - I used pytest's **parametrize** decorator to run the same test with different parameters for positive and negative tests.
+- Negative tests are **invalid users list**, **invalid action type**, and **no action type** for 400 status code.
 - test cases also focus on positive and negative test cases. Please refer to test cases for more information.
 
 ## Test Cases
