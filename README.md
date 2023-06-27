@@ -8,6 +8,11 @@ a **Python package manager** that allows you to install and manage software pack
 
 If you install **Python**, **pip** will also be automatically installed.
 
+First, clone this repo!
+```commandline
+git clone https://github.com/boradori/census_toy_api_test.git
+```
+
 You should also use virtual environment for easier dependency management of your project. Please try to use the following command to create a virtual environment.
 ```commandline
 python -m venv venv
