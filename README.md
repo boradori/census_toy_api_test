@@ -8,7 +8,7 @@ a **Python package manager** that allows you to install and manage software pack
 
 If you install **Python**, **pip** will also be automatically installed.
 
-Clone this repo and enter project directory!
+Clone this repo and enter project directory! Make sure you have `git` installed on your machine.
 ```commandline
 git clone https://github.com/boradori/census_toy_api_test.git
 ```
@@ -32,6 +32,8 @@ source venv/bin/activate
 Then, you can use the following command to install dependencies.
 ```commandline
 pip install -r requirements.txt
+or
+pip3 install -r requirements.txt
 ```
 
 ## Execution
@@ -75,6 +77,7 @@ pytest -m count_password_complexity --top_pw_complex=4
 ```
 
 You can also apply 'top' values when running the entire test suite.
+Default values of 0 will be used if you do not specify them.
 ```commandline
 pytest --top_gender=2 --top_country=4 --top_pw_complex=3 --html=reports.html
 ```
@@ -83,8 +86,8 @@ pytest --top_gender=2 --top_country=4 --top_pw_complex=3 --html=reports.html
 - I tested Census Toy API with **pytest** and **requests**.
 - There are three ActionTypes, **CountByGender**, **CountByCountry**, and **CountPasswordComplexity**.
 - I generated random users via **randomuser.me** API.
-- The generated random users are passed to Census Toy API to test since they store user information on gender, country, and password complexity.
-- **top** values can be added via CLI to limit the number of results; **top** values are optional and default values are 5.
+- The generated random users are passed to Census Toy API for testing since they contain user information such **gender**, **country**, and **password complexity**.
+- **top** values can be added via CLI to limit the number of results; **top** values are optional and default values are 0.
 - I made combinations of **top** value and the number of users using CLI and **parametrize** decorator.
 - I made a **test_utils.py** file to store common functions that are used in multiple test cases.
 - I used pytest's **parametrize** decorator to run the same test with different parameters for positive and negative tests.
