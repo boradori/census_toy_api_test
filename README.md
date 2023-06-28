@@ -20,7 +20,9 @@ cd census_toy_api_test
 You should also use virtual environment for easier dependency management of your project. Please try to use the following command to create a virtual environment.
 ```commandline
 python -m venv venv
+```
 or
+```commandline
 python3 -m venv venv
 ```
 
@@ -32,7 +34,9 @@ source venv/bin/activate
 Then, you can use the following command to install dependencies.
 ```commandline
 pip install -r requirements.txt
+```
 or
+```commandline
 pip3 install -r requirements.txt
 ```
 
