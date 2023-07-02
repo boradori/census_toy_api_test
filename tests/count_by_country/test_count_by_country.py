@@ -24,7 +24,9 @@ class TestCountByCountry:
     @pytest.mark.parametrize("num_of_users", [-1, 0, 1, 5])
     def test_count_by_country_returns_correct_values(self, api_url, headers, top_country, num_of_users):
         test_users = generate_random_users(num_of_users)
-        response = make_post_request(api_url, test_users, action_type="CountByCountry", top=top_country, headers=headers)
+        response = make_post_request(
+            api_url, test_users, action_type="CountByCountry", top=top_country, headers=headers
+        )
 
         expected_status_code = 200
         logging.info(f'Expected status code: {expected_status_code}. Actual status code: {response.status_code}')
@@ -68,8 +70,9 @@ class TestCountByCountry:
     def test_count_by_country_with_invalid_users_list(self, api_url, headers, top_country):
         test_users = generate_random_users()
         test_users.append({'invalid_name': 'test', 'invalid_value': 'test'})
-        response = \
-            make_post_request(api_url, test_users, action_type="CountByCountry", top=top_country, headers=headers)
+        response = make_post_request(
+            api_url, test_users, action_type="CountByCountry", top=top_country, headers=headers
+        )
 
         expected_response_codes = [400, 422]
         logging.info(f'Verifying that the response status code are in {expected_response_codes}.')
