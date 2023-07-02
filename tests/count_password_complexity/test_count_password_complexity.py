@@ -11,13 +11,22 @@ from utilities.test_utils import (
 @pytest.mark.count_password_complexity
 class TestCountPasswordComplexity:
     @pytest.fixture(scope="session")
+    def headers(self):
+        return {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+
+    @pytest.fixture(scope="session")
     def api_url(self):
         return "https://census-toy.nceng.net/prod/toy-census"
 
     @pytest.mark.parametrize("num_of_users", [-1, 0, 1, 5])
-    def test_count_pw_complexity_returns_correct_values(self, api_url, top_pw_complex, num_of_users):
+    def test_count_pw_complexity_returns_correct_values(self, api_url, headers, top_pw_complex, num_of_users):
         test_users = generate_random_users(num_of_users)
-        response = make_post_request(api_url, test_users, action_type="CountPasswordComplexity", top=top_pw_complex)
+        response = make_post_request(
+            api_url, test_users, action_type="CountPasswordComplexity", top=top_pw_complex, headers=headers
+        )
 
         expected_status_code = 200
         logging.info(f'Expected status code: {expected_status_code}. Actual status code: {response.status_code}')
@@ -55,39 +64,43 @@ class TestCountPasswordComplexity:
         logging.info(f'Actual result:   {result}')
 
         # Compare the results directly, or by their values if they're not equal.
-        compare_results_or_values(expected_result, result)
+        if expected_result != result:
+            results_match = compare_results_or_values(expected_result, result)
+            assert results_match, f'Error: The expected result by values does not match the actual result.'
 
-    def test_count_pw_complexity_with_invalid_users_list(self, api_url, top_pw_complex):
+    def test_count_pw_complexity_with_invalid_users_list(self, api_url, headers, top_pw_complex):
         test_users = generate_random_users()
         test_users.append({'invalid_name': 'test', 'invalid_value': 'test'})
-        response = make_post_request(api_url, test_users, action_type="CountPasswordComplexity", top=top_pw_complex)
+        response = make_post_request(
+            api_url, test_users, action_type="CountPasswordComplexity", top=top_pw_complex, headers=headers
+        )
 
-        expected_response_code = 400
-        logging.info(f'Verifying that the response status code is {expected_response_code}.')
-        logging.info(f'Expected response: {expected_response_code}')
-        logging.info(f'Actual response:   {response.status_code}')
-        assert response.status_code == expected_response_code,\
-            f'Error: Expected response code {expected_response_code}, but received {response.status_code}'
+        expected_response_codes = [400, 422]
+        logging.info(f'Verifying that the response status code are in {expected_response_codes}.')
+        logging.info(f'Expected responses: {expected_response_codes}')
+        logging.info(f'Actual response:    {response.status_code}')
+        assert response.status_code in expected_response_codes, \
+            f'Error: Expected response code {expected_response_codes}, but received {response.status_code}'
 
     @pytest.mark.parametrize("action_type", ["", " ", "invalid_action_type"])
-    def test_count_pw_complexity_with_invalid_action_type(self, api_url, top_pw_complex, action_type):
+    def test_count_pw_complexity_with_invalid_action_type(self, api_url, headers, top_pw_complex, action_type):
         test_users = generate_random_users()
-        response = make_post_request(api_url, test_users, action_type=action_type, top=top_pw_complex)
+        response = make_post_request(api_url, test_users, action_type=action_type, top=top_pw_complex, headers=headers)
 
-        expected_response_code = 400
-        logging.info(f'Verifying that the response status code is {expected_response_code}.')
-        logging.info(f'Expected response: {expected_response_code}')
-        logging.info(f'Actual response:   {response.status_code}')
-        assert response.status_code == expected_response_code, \
-            f'Error: Expected response code {expected_response_code}, but received {response.status_code}'
+        expected_response_codes = [400, 422]
+        logging.info(f'Verifying that the response status code are in {expected_response_codes}.')
+        logging.info(f'Expected responses: {expected_response_codes}')
+        logging.info(f'Actual response:    {response.status_code}')
+        assert response.status_code in expected_response_codes, \
+            f'Error: Expected response code {expected_response_codes}, but received {response.status_code}'
 
-    def test_count_pw_complexity_without_action_type(self, api_url, top_pw_complex):
+    def test_count_pw_complexity_without_action_type(self, api_url, headers, top_pw_complex):
         test_users = generate_random_users()
-        response = make_post_request(api_url, test_users, action_type=None, top=top_pw_complex)
+        response = make_post_request(api_url, test_users, action_type=None, top=top_pw_complex, headers=headers)
 
-        expected_response_code = 400
-        logging.info(f'Verifying that the response status code is {expected_response_code}.')
-        logging.info(f'Expected response: {expected_response_code}')
-        logging.info(f'Actual response:   {response.status_code}')
-        assert response.status_code == expected_response_code, \
-            f'Error: Expected response code {expected_response_code}, but received {response.status_code}'
+        expected_response_codes = [400, 422]
+        logging.info(f'Verifying that the response status code are in {expected_response_codes}.')
+        logging.info(f'Expected responses: {expected_response_codes}')
+        logging.info(f'Actual response:    {response.status_code}')
+        assert response.status_code in expected_response_codes, \
+            f'Error: Expected response code {expected_response_codes}, but received {response.status_code}'

@@ -21,7 +21,7 @@ def generate_random_users(num_of_users=5):
             return users
 
 
-def make_post_request(api_url, users, action_type=None, top=None):
+def make_post_request(api_url, users, action_type=None, top=None, headers=None):
     payload = {
         "users": users,
     }
@@ -32,7 +32,7 @@ def make_post_request(api_url, users, action_type=None, top=None):
     if top is not None:
         payload["top"] = top
 
-    response = requests.post(api_url, json=payload)
+    response = requests.post(api_url, json=payload, headers=headers)
     return response
 
 
@@ -74,13 +74,10 @@ def get_sorted_pw_complexity(users, top):
 
 
 def compare_results_or_values(expected_result, result):
-    if expected_result != result:
-        expected_result_by_values = [item['value'] for item in expected_result]
-        result_by_values = [item['value'] for item in result]
+    expected_result_by_values = [item['value'] for item in expected_result]
+    result_by_values = [item['value'] for item in result]
 
-        logging.info(f'Expected result by values: {expected_result_by_values}')
-        logging.info(f'Actual result by values:   {result_by_values}')
+    logging.info(f'Expected result by values: {expected_result_by_values}')
+    logging.info(f'Actual result by values:   {result_by_values}')
 
-        assert expected_result_by_values == result_by_values, \
-            f'Error: The expected result by values {expected_result_by_values}' \
-            f' does not match the actual result {result_by_values}.'
+    return expected_result_by_values == result_by_values
